@@ -14,17 +14,17 @@ KG = 1 / SOLAR_MASS
 METRE = CC ** 2 / (GG * SOLAR_MASS)
 SECOND = CC * METRE
 
-MPC = 3.08568e+22  # MPC in metres
+MPC = 3.08568e22  # MPC in metres
 
 
 def m12_to_mc(m1, m2):
     """convert m1 and m2 to chirp mass"""
-    return (m1*m2)**(3./5.) / (m1 + m2)**(1./5.)
+    return (m1 * m2) ** (3.0 / 5.0) / (m1 + m2) ** (1.0 / 5.0)
 
 
 def m12_to_symratio(m1, m2):
     """convert m1 and m2 to symmetric mass ratio"""
-    return m1 * m2 / (m1 + m2)**2
+    return m1 * m2 / (m1 + m2) ** 2
 
 
 def mc_eta_to_m12(mc, eta):
@@ -35,8 +35,8 @@ def mc_eta_to_m12(mc, eta):
     eta - symmetric mass ratio
     Return: m1, m2 - primary and secondary masses, m1>m2
     """
-    m1 = mc/eta**0.6*(1+(1-4*eta)**0.5)/2
-    m2 = mc/eta**0.6*(1-(1-4*eta)**0.5)/2
+    m1 = mc / eta ** 0.6 * (1 + (1 - 4 * eta) ** 0.5) / 2
+    m2 = mc / eta ** 0.6 * (1 - (1 - 4 * eta) ** 0.5) / 2
     return m1, m2
 
 
@@ -93,7 +93,7 @@ def nfft(ht, sampling_frequency):
         ht = np.append(ht, 0)
     LL = len(ht)
     # frequency range
-    ff = sampling_frequency / 2 * np.linspace(0, 1, int(LL/2+1))
+    ff = sampling_frequency / 2 * np.linspace(0, 1, int(LL / 2 + 1))
 
     # calculate FFT
     # rfft computes the fft for real inputs
@@ -105,8 +105,7 @@ def nfft(ht, sampling_frequency):
     return hf, ff
 
 
-def load_sxs_waveform(file_name, modes=None,
-                      extraction='OutermostExtraction.dir'):
+def load_sxs_waveform(file_name, modes=None, extraction="OutermostExtraction.dir"):
     """
     Load the spherical harmonic modes of an SXS numerical relativity waveform.
 
@@ -131,12 +130,12 @@ def load_sxs_waveform(file_name, modes=None,
         for ell in range(2, 5):
             for mm in range(-ell, ell + 1):
                 mode_array = waveform[extraction][
-                    'Y_l{}_m{}.dat'.format(ell, mm)[:, 1:]]
+                    "Y_l{}_m{}.dat".format(ell, mm)[:, 1:]
+                ]
                 output[(ell, mm)] = mode_array[:, 1] + 1j * mode_array[:, 2]
     else:
         for mode in modes:
-            mode_array = waveform[extraction][
-                'Y_l{}_m{}.dat'.format(mode[0], mode[1])]
+            mode_array = waveform[extraction]["Y_l{}_m{}.dat".format(mode[0], mode[1])]
             output[mode] = mode_array[:, 1] + 1j * mode_array[:, 2]
     times = mode_array[:, 0]
     return output, times
@@ -153,9 +152,9 @@ def combine_modes(h_lm, inc, phase):
 
 
 def get_version_information():
-    version_file = os.path.join(os.path.dirname(__file__), '.version')
+    version_file = os.path.join(os.path.dirname(__file__), ".version")
     try:
-        with open(version_file, 'r') as f:
+        with open(version_file, "r") as f:
             return f.readline().rstrip()
     except EnvironmentError:
         print("No version information file '.version' found")
@@ -215,18 +214,18 @@ def planck(M, e, sym=True):
     if M < 1:
         return np.array([])
     if M < 3:
-        return np.ones(M, 'd')
+        return np.ones(M, "d")
     odd = M % 2
     if not sym and not odd:
         M = M + 1
 
-    t2 = min(M//2, int(np.floor(e * (M-1))))
+    t2 = min(M // 2, int(np.floor(e * (M - 1))))
     w1 = np.arange(1, t2)
-    w1 = t2/w1 + t2/(w1-t2)
-    w1 = 1/(np.exp(w1)+1)
-    w2 = np.ones(M-2 - len(w1)*2)
+    w1 = t2 / w1 + t2 / (w1 - t2)
+    w1 = 1 / (np.exp(w1) + 1)
+    w2 = np.ones(M - 2 - len(w1) * 2)
     w3 = w1[::-1]
-    w = np.concatenate(([0.], w1, w2, w3, [0.]))
+    w = np.concatenate(([0.0], w1, w2, w3, [0.0]))
 
     if not sym and not odd:
         w = w[:-1]
