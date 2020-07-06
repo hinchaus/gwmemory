@@ -14,7 +14,7 @@ def time_domain_memory(
     distance=None,
     inc=None,
     phase=None,
-    **kwargs
+    **kwargs,
 ):
     """
     Calculate the time domain memory waveform according to __reference__.
@@ -99,7 +99,7 @@ def time_domain_memory(
             spin_2=spin_2,
             distance=distance,
             times=times,
-            **model_kwargs
+            **model_kwargs,
         )
     elif "EOBNR" in model or "Phenom" in model:
         all_keys = inspect.getargspec(waveforms.Approximant.__init__)[0]
@@ -112,7 +112,7 @@ def time_domain_memory(
             spin_2=spin_2,
             distance=distance,
             times=times,
-            **model_kwargs
+            **model_kwargs,
         )
     elif model == "MWM":
         all_keys = inspect.getargspec(waveforms.MWM.__init__)[0]
@@ -123,10 +123,10 @@ def time_domain_memory(
             total_mass=total_mass,
             distance=distance,
             times=times,
-            **model_kwargs
+            **model_kwargs,
         )
     else:
-        print("Model {} unknown".format(model))
+        print(f"Model {model} unknown")
         return None
 
     all_keys = inspect.getargspec(wave.time_domain_memory)[0]
@@ -145,7 +145,7 @@ def frequency_domain_memory(
     distance=None,
     inc=None,
     phase=None,
-    **kwargs
+    **kwargs,
 ):
     """
     Calculate the frequency domain memory waveform according to __reference__.
@@ -191,7 +191,7 @@ def frequency_domain_memory(
         distance=distance,
         inc=inc,
         phase=phase,
-        **kwargs
+        **kwargs,
     )
     sampling_frequency = 1 / (times[1] - times[0])
 

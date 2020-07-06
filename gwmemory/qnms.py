@@ -142,7 +142,7 @@ def amplitude(mass_1, mass_2, ell=2, mm=2):
     elif ell == 4 & mm == 4:
         return (5.4 * (nu - 0.22) ** 2 + 0.04) * amplitude_22
     else:
-        print("Unknown mode ({}, {}) specified".format(ell, mm))
+        print(f"Unknown mode ({ell}, {mm}) specified")
 
 
 def final_mass_spin(mass_1, mass_2):

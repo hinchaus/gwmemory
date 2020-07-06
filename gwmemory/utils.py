@@ -129,13 +129,11 @@ def load_sxs_waveform(file_name, modes=None, extraction="OutermostExtraction.dir
     if modes is None:
         for ell in range(2, 5):
             for mm in range(-ell, ell + 1):
-                mode_array = waveform[extraction][
-                    "Y_l{}_m{}.dat".format(ell, mm)[:, 1:]
-                ]
+                mode_array = waveform[extraction][f"Y_l{ell}_m{mm}.dat"][:, 1:]
                 output[(ell, mm)] = mode_array[:, 1] + 1j * mode_array[:, 2]
     else:
         for mode in modes:
-            mode_array = waveform[extraction]["Y_l{}_m{}.dat".format(mode[0], mode[1])]
+            mode_array = waveform[extraction][f"Y_l{mode[0]}_m{mode[1]}.dat"]
             output[mode] = mode_array[:, 1] + 1j * mode_array[:, 2]
     times = mode_array[:, 0]
     return output, times

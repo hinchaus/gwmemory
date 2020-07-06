@@ -72,7 +72,7 @@ def gamma(lm1, lm2, incs=None, theta=None, phi=None, y_lmlm_factor=None):
 
     harm = {}
     for l, m in harmonics.lmax_modes(20):
-        harm["{}{}".format(l, m)] = harmonics.sYlm(-2, l, m, incs, phase)
+        harm[f"{l}{m}"] = harmonics.sYlm(-2, l, m, incs, phase)
 
     ells = np.arange(2, 21, 1)
 
@@ -87,9 +87,7 @@ def gamma(lm1, lm2, incs=None, theta=None, phi=None, y_lmlm_factor=None):
                 * np.pi
                 * np.trapz(
                     lambda_lm1_lm2
-                    * np.real(
-                        np.conjugate(harm["{}{}".format(ell, delta_m)]) * sin_inc
-                    ),
+                    * np.real(np.conjugate(harm[f"{ell}{delta_m}"]) * sin_inc),
                     incs,
                 )
             )
@@ -322,7 +320,7 @@ def load_gamma(data_dir=None):
     """
     if data_dir is None:
         data_dir = pkg_resources.resource_filename(__name__, "data")
-    data_files = glob.glob("{}/gamma*.dat".format(data_dir))
+    data_files = glob.glob(f"{data_dir}/gamma*.dat")
     gamma_lmlm = {}
     for file_name in data_files:
         delta_m = file_name.split("_")[-1][:-4]
