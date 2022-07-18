@@ -140,7 +140,7 @@ class Surrogate(MemoryGenerator):
 
         h_lm, times = self.time_domain_oscillatory(modes=modes, times=times)
 
-        MemoryGenerator.__init__(self, name=name, h_lm=h_lm, times=times)
+        MemoryGenerator.__init__(self, name=name, h_lm=h_lm, times=times, distance=distance)
 
     def time_domain_oscillatory(self, times=None, modes=None, inc=None, phase=None):
         """

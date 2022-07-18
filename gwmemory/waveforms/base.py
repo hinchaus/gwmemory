@@ -6,12 +6,13 @@ from ..utils import CC, MPC, combine_modes
 
 
 class MemoryGenerator(object):
-    def __init__(self, name, h_lm, times):
+    def __init__(self, name, h_lm, times, distance):
 
         self.name = name
         self.h_lm = h_lm
         self.times = times
         self.modes = self.h_lm.keys()
+        self.distance = distance
 
     @property
     def delta_t(self):
@@ -65,7 +66,8 @@ class MemoryGenerator(object):
         const = 1 / 4 / np.pi
         if self.distance is not None:
             const *= self.distance * MPC / CC
-
+            print(f"------ distance = {self.distance} ------")
+            
         dh_mem_dt_lm = dict()
         for ii, ell in enumerate(gamma_lmlm["0"].l):
             if ell > 4:

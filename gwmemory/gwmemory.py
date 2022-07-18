@@ -87,7 +87,7 @@ def time_domain_memory(
         Time series corresponding to the memory waveform.
     """
     if h_lm is not None and times is not None:
-        wave = waveforms.MemoryGenerator(name=model, h_lm=h_lm, times=times)
+        wave = waveforms.MemoryGenerator(name=model, h_lm=h_lm, times=times, distance=distance)
     elif "NRSur" in model:
         all_keys = inspect.getargspec(waveforms.Surrogate.__init__)[0]
         model_kwargs = {key: kwargs[key] for key in all_keys if key in kwargs}
